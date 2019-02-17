@@ -12,6 +12,8 @@ import ActionButtonFooter from './action-button-footer'
 import SelectTabGroup from '../select-tab-group'
 import SymptomSection from './symptom-section'
 import { ActionHint } from '../../app-text'
+import Header from '../../header'
+import { dirtyAlert } from './dirtyAlert'
 
 export default class Mucus extends Component {
   constructor(props) {
@@ -37,6 +39,8 @@ export default class Mucus extends Component {
     const mandatoryNotCompletedYet = typeof this.state.feeling != 'number' || typeof this.state.texture != 'number'
     return (
       <View style={{ flex: 1 }}>
+        <Header {...this.props} goBack={() => dirtyAlert(this.state.dirty, this.props.goBack)} />
+        
         <ScrollView style={styles.page}>
           <SymptomSection
             header='Feeling'
@@ -44,7 +48,7 @@ export default class Mucus extends Component {
           >
             <SelectTabGroup
               buttons={mucusFeeling}
-              onSelect={val => this.setState({ feeling: val })}
+              onSelect={val => this.setState({ feeling: val, dirty: true })}
               active={this.state.feeling}
             />
           </SymptomSection>
@@ -54,7 +58,7 @@ export default class Mucus extends Component {
           >
             <SelectTabGroup
               buttons={mucusTexture}
-              onSelect={val => this.setState({ texture: val })}
+              onSelect={val => this.setState({ texture: val, dirty: true })}
               active={this.state.texture}
             />
           </SymptomSection>
@@ -79,6 +83,7 @@ export default class Mucus extends Component {
           saveAction={() => {
             const feeling = this.state.feeling
             const texture = this.state.texture
+            this.setState({ dirty: false })
             saveSymptom('mucus', this.props.date, {
               feeling,
               texture,

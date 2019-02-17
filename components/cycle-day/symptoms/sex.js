@@ -11,6 +11,8 @@ import { shared as sharedLabels } from '../../../i18n/en/labels'
 import ActionButtonFooter from './action-button-footer'
 import SelectBoxGroup from '../select-box-group'
 import SymptomSection from './symptom-section'
+import Header from '../../header'
+import { dirtyAlert } from './dirtyAlert'
 
 export default class Sex extends Component {
   constructor(props) {
@@ -28,15 +30,23 @@ export default class Sex extends Component {
 
   toggleState = (key) => {
     const curr = this.state[key]
-    this.setState({[key]: !curr})
+    this.setState({
+      [key]: !curr,
+      dirty: true
+    })
     if (key === 'other' && !curr) {
-      this.setState({focusTextArea: true})
+      this.setState({
+        focusTextArea: true,
+        dirty: true
+      })
     }
   }
 
   render() {
     return (
       <View style={{ flex: 1 }}>
+        <Header {...this.props} goBack={() => dirtyAlert(this.state.dirty, this.props.goBack)} />
+
         <ScrollView style={styles.page}>
           <SymptomSection
             header={sexLabels.header}
@@ -66,7 +76,10 @@ export default class Sex extends Component {
               placeholder={sharedLabels.enter}
               value={this.state.note}
               onChangeText={(val) => {
-                this.setState({ note: val })
+                this.setState({
+                  note: val,
+                  dirty: true
+                })
               }}
             />
           }
@@ -76,6 +89,7 @@ export default class Sex extends Component {
           date={this.props.date}
           currentSymptomValue={this.state}
           saveAction={() => {
+            this.setState({ dirty: false })
             const copyOfState = Object.assign({}, this.state)
             if (!copyOfState.other) {
               copyOfState.note = null

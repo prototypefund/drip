@@ -1,15 +1,18 @@
-import React, { Component } from 'react'
 import {
-  View,
+  ScrollView,
   Switch,
-  ScrollView
+  View
 } from 'react-native'
-import styles from '../../../styles'
-import { saveSymptom } from '../../../db'
-import { bleeding } from '../../../i18n/en/cycle-day'
+import React, { Component } from 'react'
+
 import ActionButtonFooter from './action-button-footer'
+import Header from '../../header'
 import SelectTabGroup from '../select-tab-group'
 import SymptomSection from './symptom-section'
+import { bleeding } from '../../../i18n/en/cycle-day'
+import { saveSymptom } from '../../../db'
+import styles from '../../../styles'
+import { dirtyAlert } from './dirtyAlert'
 
 export default class Bleeding extends Component {
   constructor(props) {
@@ -18,6 +21,7 @@ export default class Bleeding extends Component {
     this.bleeding = cycleDay && cycleDay.bleeding
     this.makeActionButtons = props.makeActionButtons
     this.state = {
+      dirty: false,
       currentValue: this.bleeding && this.bleeding.value,
       exclude: this.bleeding ? this.bleeding.exclude : false
     }
@@ -32,6 +36,8 @@ export default class Bleeding extends Component {
     ]
     return (
       <View style={{ flex: 1 }}>
+        <Header {...this.props} goBack={() => dirtyAlert(this.state.dirty, this.props.goBack)} />
+
         <ScrollView style={styles.page}>
           <SymptomSection
             header={bleeding.heaviness.header}
@@ -40,7 +46,7 @@ export default class Bleeding extends Component {
             <SelectTabGroup
               buttons={bleedingRadioProps}
               active={this.state.currentValue}
-              onSelect={val => this.setState({ currentValue: val })}
+              onSelect={val => this.setState({ currentValue: val, dirty: true })}
             />
           </SymptomSection>
           <SymptomSection
@@ -61,6 +67,7 @@ export default class Bleeding extends Component {
           date={this.props.date}
           currentSymptomValue={this.bleeding}
           saveAction={() => {
+            this.setState({ dirty: false })
             saveSymptom('bleeding', this.props.date, {
               value: this.state.currentValue,
               exclude: this.state.exclude

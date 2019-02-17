@@ -7,8 +7,10 @@ import styles from '../../../styles'
 import { saveSymptom } from '../../../db'
 import { intensity, desire } from '../../../i18n/en/cycle-day'
 import ActionButtonFooter from './action-button-footer'
+import Header from '../../header'
 import SelectTabGroup from '../select-tab-group'
 import SymptomSection from './symptom-section'
+import { dirtyAlert } from './dirtyAlert'
 
 export default class Desire extends Component {
   constructor(props) {
@@ -17,7 +19,7 @@ export default class Desire extends Component {
     this.desire = cycleDay && cycleDay.desire
     this.makeActionButtons = props.makeActionButtons
     const desireValue = this.desire && this.desire.value
-    this.state = { currentValue: desireValue }
+    this.state = { currentValue: desireValue, dirty: false }
   }
 
   render() {
@@ -28,6 +30,8 @@ export default class Desire extends Component {
     ]
     return (
       <View style={{ flex: 1 }}>
+        <Header {...this.props} goBack={() => dirtyAlert(this.state.dirty, this.props.goBack)} />
+
         <ScrollView style={styles.page}>
           <SymptomSection
             header={desire.header}
@@ -36,7 +40,7 @@ export default class Desire extends Component {
             <SelectTabGroup
               buttons={desireRadioProps}
               active={this.state.currentValue}
-              onSelect={val => this.setState({ currentValue: val })}
+              onSelect={val => this.setState({ currentValue: val, dirty: true })}
             />
           </SymptomSection>
         </ScrollView>
@@ -45,6 +49,7 @@ export default class Desire extends Component {
           date={this.props.date}
           currentSymptomValue={this.desire}
           saveAction={() => {
+            this.setState({ dirty: false })
             saveSymptom('desire', this.props.date, { value: this.state.currentValue })
           }}
           saveDisabled={typeof this.state.currentValue != 'number'}

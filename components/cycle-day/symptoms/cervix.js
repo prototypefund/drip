@@ -11,6 +11,8 @@ import ActionButtonFooter from './action-button-footer'
 import SelectTabGroup from '../select-tab-group'
 import SymptomSection from './symptom-section'
 import { ActionHint } from '../../app-text'
+import Header from '../../header'
+import { dirtyAlert } from './dirtyAlert'
 
 export default class Cervix extends Component {
   constructor(props) {
@@ -39,6 +41,8 @@ export default class Cervix extends Component {
     const mandatoryNotCompletedYet = typeof this.state.opening != 'number' || typeof this.state.firmness != 'number'
     return (
       <View style={{ flex: 1 }}>
+        <Header {...this.props} goBack={() => dirtyAlert(this.state.dirty, this.props.goBack)} />
+
         <ScrollView style={styles.page}>
           <SymptomSection
             header="Opening"
@@ -47,7 +51,7 @@ export default class Cervix extends Component {
             <SelectTabGroup
               buttons={cervixOpeningRadioProps}
               active={this.state.opening}
-              onSelect={val => this.setState({ opening: val })}
+              onSelect={val => this.setState({ opening: val, dirty: true })}
             />
           </SymptomSection>
           <SymptomSection
@@ -57,7 +61,7 @@ export default class Cervix extends Component {
             <SelectTabGroup
               buttons={cervixFirmnessRadioProps}
               active={this.state.firmness}
-              onSelect={val => this.setState({ firmness: val })}
+              onSelect={val => this.setState({ firmness: val, dirty: true })}
             />
           </SymptomSection>
           <SymptomSection
@@ -67,7 +71,7 @@ export default class Cervix extends Component {
             <SelectTabGroup
               buttons={cervixPositionRadioProps}
               active={this.state.position}
-              onSelect={val => this.setState({ position: val })}
+              onSelect={val => this.setState({ position: val, dirty: true })}
             />
           </SymptomSection>
           <SymptomSection
@@ -89,6 +93,7 @@ export default class Cervix extends Component {
           date={this.props.date}
           currentSymptomValue={this.cervix}
           saveAction={() => {
+            this.setState({ dirty: false })
             saveSymptom('cervix', this.props.date, {
               opening: this.state.opening,
               firmness: this.state.firmness,

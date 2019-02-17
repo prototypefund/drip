@@ -19,6 +19,9 @@ import { shared as sharedLabels } from '../../../i18n/en/labels'
 import ActionButtonFooter from './action-button-footer'
 import config from '../../../config'
 import SymptomSection from './symptom-section'
+import Header from '../../header'
+import { dirtyAlert } from './dirtyAlert'
+
 
 const minutes = ChronoUnit.MINUTES
 
@@ -36,7 +39,8 @@ export default class Temp extends Component {
       time: temp ? temp.time : LocalTime.now().truncatedTo(minutes).toString(),
       isTimePickerVisible: false,
       outOfRange: null,
-      note: temp ? temp.note : null
+      note: temp ? temp.note : null,
+      dirty: false
     }
 
     if (temp) {
@@ -98,6 +102,8 @@ export default class Temp extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        <Header {...this.props} goBack={() => dirtyAlert(this.state.dirty, this.props.goBack)} />
+        
         <ScrollView style={styles.page}>
           <View>
             <SymptomSection
@@ -107,7 +113,7 @@ export default class Temp extends Component {
             >
               <TempInput
                 value={this.state.temperature}
-                setState={(val) => this.setState(val)}
+                setState={(val) => this.setState({...val, dirty: true })}
                 isSuggestion={this.state.isSuggestion}
               />
             </SymptomSection>
@@ -129,7 +135,8 @@ export default class Temp extends Component {
                 onConfirm={jsDate => {
                   this.setState({
                     time: padWithZeros(jsDate),
-                    isTimePickerVisible: false
+                    isTimePickerVisible: false,
+                    dirty: true
                   })
                 }}
                 onCancel={() => this.setState({ isTimePickerVisible: false })}
@@ -145,7 +152,7 @@ export default class Temp extends Component {
                 placeholder={sharedLabels.enter}
                 value={this.state.note}
                 onChangeText={(val) => {
-                  this.setState({ note: val })
+                  this.setState({ note: val, dirty: true })
                 }}
               />
             </SymptomSection>

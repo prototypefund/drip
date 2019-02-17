@@ -124,20 +124,17 @@ export default class App extends Component {
             goBack={this.handleBackButtonPress}
           />
         }
-        {this.isSymptomView() &&
-          <Header
-            title={title}
-            isSymptomView={true}
-            goBack={this.handleBackButtonPress}
-            date={currentProps.date}
-            goToSymptomInfo={() => this.navigate(INFO_SYMPTOM_PAGE, {
-              symptomView: currentPage,
-              ...currentProps
-            })}
-          />}
 
         {React.createElement(page, {
           navigate: this.navigate,
+          title: title,
+          isSymptomView: true,
+          goBack: this.handleBackButtonPress,
+          date: currentProps ? currentProps.date : {},
+          goToSymptomInfo: () => this.navigate(INFO_SYMPTOM_PAGE, {
+            symptomView: currentPage,
+            ...currentProps
+          }),
           ...currentProps
         })}
 
