@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {
+  BackHandler,
   View,
   ScrollView
 } from 'react-native'
@@ -13,6 +14,8 @@ import SymptomSection from './symptom-section'
 import { dirtyAlert } from './dirtyAlert'
 
 export default class Desire extends Component {
+  backListener = () => null
+
   constructor(props) {
     super(props)
     const cycleDay = props.cycleDay
@@ -20,6 +23,17 @@ export default class Desire extends Component {
     this.makeActionButtons = props.makeActionButtons
     const desireValue = this.desire && this.desire.value
     this.state = { currentValue: desireValue, dirty: false }
+  }
+
+  componentDidMount () {
+    this.backListener = BackHandler.addEventListener('hardwareBackPress', () => {
+      dirtyAlert(this.state.dirty, this.props.goBack)
+      return true
+    })
+  }
+
+  componentDidUnmout () {
+    BackHandler.removeEventListener('hardwareBackPress', this.backListener)
   }
 
   render() {

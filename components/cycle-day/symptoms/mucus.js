@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {
+  BackHandler,
   View,
   Switch,
   ScrollView
@@ -16,12 +17,25 @@ import Header from '../../header'
 import { dirtyAlert } from './dirtyAlert'
 
 export default class Mucus extends Component {
+  backListener = () => null
+
   constructor(props) {
     super(props)
     const cycleDay = props.cycleDay
     this.mucus = cycleDay && cycleDay.mucus
     this.makeActionButtons = props.makeActionButtons
     this.state = this.mucus ? this.mucus : {}
+  }
+
+  componentDidMount () {
+    this.backListener = BackHandler.addEventListener('hardwareBackPress', () => {
+      dirtyAlert(this.state.dirty, this.props.goBack)
+      return true
+    })
+  }
+
+  componentDidUnmout () {
+    BackHandler.removeEventListener('hardwareBackPress', this.backListener)
   }
 
   render() {

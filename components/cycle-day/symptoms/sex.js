@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {
+  BackHandler,
   TextInput,
   View,
   ScrollView
@@ -15,6 +16,8 @@ import Header from '../../header'
 import { dirtyAlert } from './dirtyAlert'
 
 export default class Sex extends Component {
+  backListener = () => null
+
   constructor(props) {
     super(props)
     const cycleDay = props.cycleDay
@@ -26,6 +29,17 @@ export default class Sex extends Component {
     // We make sure other is always true when there is a note,
     // e.g. when import is messed up.
     if (this.state.note) this.state.other = true
+  }
+
+  componentDidMount () {
+    this.backListener = BackHandler.addEventListener('hardwareBackPress', () => {
+      dirtyAlert(this.state.dirty, this.props.goBack)
+      return true
+    })
+  }
+
+  componentDidUnmout () {
+    BackHandler.removeEventListener('hardwareBackPress', this.backListener)
   }
 
   toggleState = (key) => {

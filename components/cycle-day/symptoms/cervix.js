@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {
+  BackHandler,
   View,
   Switch,
   ScrollView
@@ -15,12 +16,25 @@ import Header from '../../header'
 import { dirtyAlert } from './dirtyAlert'
 
 export default class Cervix extends Component {
+  backListener = null
+
   constructor(props) {
     super(props)
     const cycleDay = props.cycleDay
     this.cervix = cycleDay && cycleDay.cervix
     this.makeActionButtons = props.makeActionButtons
     this.state = this.cervix ? this.cervix : {}
+  }
+
+  componentDidMount () {
+    this.backListener = BackHandler.addEventListener('hardwareBackPress', () => {
+      dirtyAlert(this.state.dirty, this.props.goBack)
+      return true
+    })
+  }
+
+  componentDidUnmout () {
+    BackHandler.removeEventListener('hardwareBackPress', this.backListener)
   }
 
   render() {

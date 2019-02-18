@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {
+  BackHandler,
   View,
   TextInput,
   Switch,
@@ -26,6 +27,8 @@ import { dirtyAlert } from './dirtyAlert'
 const minutes = ChronoUnit.MINUTES
 
 export default class Temp extends Component {
+  backListener = () => null
+
   constructor(props) {
     super(props)
     const cycleDay = props.cycleDay
@@ -55,6 +58,17 @@ export default class Temp extends Component {
         this.state.isSuggestion = true
       }
     }
+  }
+
+  componentDidMount () {
+    this.backListener = BackHandler.addEventListener('hardwareBackPress', () => {
+      dirtyAlert(this.state.dirty, this.props.goBack)
+      return true
+    })
+  }
+
+  componentDidUnmout () {
+    BackHandler.removeEventListener('hardwareBackPress', this.backListener)
   }
 
   saveTemperature = () => {

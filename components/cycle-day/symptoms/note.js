@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {
+  BackHandler,
   View,
   ScrollView,
   TextInput,
@@ -15,6 +16,8 @@ import { shared as sharedLabels } from '../../../i18n/en/labels'
 import { dirtyAlert } from './dirtyAlert'
 
 export default class Note extends Component {
+  backListener = () => null
+
   constructor(props) {
     super(props)
     const cycleDay = props.cycleDay
@@ -25,6 +28,17 @@ export default class Note extends Component {
       currentValue: this.note && this.note.value || '',
       dirty: false
     }
+  }
+
+  componentDidMount () {
+    this.backListener = BackHandler.addEventListener('hardwareBackPress', () => {
+      dirtyAlert(this.state.dirty, this.props.goBack)
+      return true
+    })
+  }
+
+  componentDidUnmout () {
+    BackHandler.removeEventListener('hardwareBackPress', this.backListener)
   }
 
   render() {

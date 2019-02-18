@@ -1,4 +1,5 @@
 import {
+  BackHandler,
   ScrollView,
   Switch,
   View
@@ -15,6 +16,8 @@ import styles from '../../../styles'
 import { dirtyAlert } from './dirtyAlert'
 
 export default class Bleeding extends Component {
+  backListener = () => null
+
   constructor(props) {
     super(props)
     const cycleDay = props.cycleDay
@@ -25,6 +28,17 @@ export default class Bleeding extends Component {
       currentValue: this.bleeding && this.bleeding.value,
       exclude: this.bleeding ? this.bleeding.exclude : false
     }
+  }
+
+  componentDidMount () {
+    this.backListener = BackHandler.addEventListener('hardwareBackPress', () => {
+      dirtyAlert(this.state.dirty, this.props.goBack)
+      return true
+    })
+  }
+
+  componentDidUnmout () {
+    BackHandler.removeEventListener('hardwareBackPress', this.backListener)
   }
 
   render() {
