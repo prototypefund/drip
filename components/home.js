@@ -1,14 +1,12 @@
 import { ChronoUnit, LocalDate } from 'js-joda'
 import React, { Component } from 'react'
-import { Dimensions, ScrollView, TouchableHighlight, View } from 'react-native'
-import Icon from 'react-native-vector-icons/Entypo'
+import { ScrollView, View } from 'react-native'
 
 import DripHomeIcon from '../assets/drip-home-icons'
 import { getCycleDay } from '../db'
 import {
   bleedingPrediction as predictLabels,
   home as labels,
-  shared,
 } from '../i18n/en/labels'
 import links from '../i18n/en/links'
 import cycleModule from '../lib/cycle'
@@ -17,25 +15,6 @@ import styles, { cycleDayColor, periodColor, secondaryColor } from '../styles'
 import AppText from './app-text'
 import Button from './button'
 import { formatDateForShortText } from './helpers/format-date'
-
-const ShowMoreToggler = ({ isShowingMore, onToggle }) => {
-  const {height, width} = Dimensions.get('window')
-  const leftPosition = isShowingMore ? 10 : width - 40
-  const style = isShowingMore ? styles.showLess : styles.showMore
-  const topPosition = height / 2 - styles.header.height - 30
-
-  return (
-    <TouchableHighlight
-      onPress={onToggle}
-      style={[style, { top: topPosition, left: leftPosition}]}
-    >
-      <View style={{alignItems: 'center'}}>
-        <AppText>{isShowingMore ? shared.less : shared.more}</AppText>
-        <Icon name='chevron-thin-down' />
-      </View>
-    </TouchableHighlight>
-  )
-}
 
 const IconText = ({ children, wrapperStyles }) => {
   return (
@@ -53,13 +32,18 @@ const HomeElement = ({ children, onPress, buttonColor, buttonLabel  }) => {
       onPress={ onPress }
       style={ styles.homeIconElement }
     >
-      { children }
-      <Button
-        style={styles.homeButton}
-        onPress={ onPress }
-        backgroundColor={ buttonColor }>
-        { buttonLabel }
-      </Button>
+      {children[0]}
+      {children[1]}
+
+      <View>
+        {children[2]}
+        <Button
+          style={styles.homeButton}
+          onPress={ onPress }
+          backgroundColor={ buttonColor }>
+          { buttonLabel }
+        </Button>
+      </View>
     </View>
   )
 }
@@ -75,7 +59,6 @@ export default class Home extends Component {
     const fertilityStatus = getFertilityStatusForDay(this.todayDateString)
 
     this.state = {
-      isShowingMore: false,
       cycleDayNumber: this.getCycleDayNumber(this.todayDateString),
       predictionText: determinePredictionText(prediction),
       bleedingPredictionRange: getBleedingPredictionRange(prediction),
@@ -91,12 +74,8 @@ export default class Home extends Component {
     })
   }
 
-  toggleShowingMore = () => {
-    this.setState({ isShowingMore: !this.state.isShowingMore })
-  }
-
   render() {
-    const { isShowingMore, cycleDayNumber, phase, status } = this.state
+    const { cycleDayNumber, phase, status } = this.state
     const { navigate } = this.props
     const cycleDayMoreText = cycleDayNumber ?
       labels.cycleDayKnown(cycleDayNumber) :
@@ -121,9 +100,7 @@ export default class Home extends Component {
                 {cycleDayNumber || labels.unknown}
               </IconText>
 
-              { isShowingMore &&
-                  <AppText style={styles.paragraph}>{cycleDayMoreText}</AppText>
-              }
+              <AppText style={styles.paragraph}>{cycleDayMoreText}</AppText>
             </HomeElement>
 
             <HomeElement
@@ -139,11 +116,9 @@ export default class Home extends Component {
                 {this.state.bleedingPredictionRange}
               </IconText>
 
-              { isShowingMore &&
-                <AppText style={styles.paragraph}>
-                  {this.state.predictionText}
-                </AppText>
-              }
+              <AppText style={styles.paragraph}>
+                {this.state.predictionText}
+              </AppText>
             </HomeElement>
 
             <HomeElement
@@ -160,20 +135,14 @@ export default class Home extends Component {
               { phase &&
                 <AppText>{`${labels.phase(phase)} (${status})`}</AppText>
               }
-              { isShowingMore &&
-                <View>
-                  <AppText styles={styles.paragraph}>
-                    { `${statusText} ${links.wiki.url}.` }
-                  </AppText>
-                </View>
-              }
+              <View>
+                <AppText styles={styles.paragraph}>
+                  { `${statusText} ${links.wiki.url}.` }
+                </AppText>
+              </View>
             </HomeElement>
           </View>
         </ScrollView>
-        <ShowMoreToggler
-          isShowingMore={isShowingMore}
-          onToggle={this.toggleShowingMore}
-        />
       </View>
     )
   }
