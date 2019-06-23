@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { View, BackHandler } from 'react-native'
+import { connect } from 'react-redux'
+
 import Header from './header'
 import Menu from './menu'
 import Home from './home'
@@ -10,6 +12,7 @@ import Chart from './chart/chart'
 import SettingsMenu from './settings/settings-menu'
 import settingsViews from './settings'
 import Stats from './stats'
+
 import {headerTitles, menuTitles} from '../i18n/en/labels'
 import setupNotifications from '../lib/notifications'
 import { closeDb } from '../db'
@@ -25,11 +28,11 @@ const HOME_PAGE = 'Home'
 const CYCLE_DAY_PAGE = 'CycleDay'
 const SETTINGS_MENU_PAGE = 'SettingsMenu'
 
-export default class App extends Component {
+class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentPage: HOME_PAGE
+      currentPage: props.currentPage
     }
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress)
     setupNotifications(this.navigate)
@@ -132,3 +135,14 @@ export default class App extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return({
+    currentPage: state.navigation.currentPage,
+  })
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(App)
