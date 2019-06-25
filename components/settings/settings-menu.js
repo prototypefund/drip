@@ -3,12 +3,17 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native'
+import { connect } from 'react-redux'
+
+import { setCurrentPage } from '../../actions/navigation'
+
 import styles from '../../styles/index'
 import settingsLabels from '../../i18n/en/settings'
 import AppText from '../app-text'
 
 const labels = settingsLabels.menuTitles
 
+// TODO: move it to the navigation config (components/navigation.js)
 const menu = [
   {title: labels.reminders, component: 'Reminders'},
   {title: labels.nfpSettings, component: 'NfpSettings'},
@@ -18,22 +23,34 @@ const menu = [
   {title: labels.license, component: 'License'}
 ]
 
-export default function SettingsMenu(props) {
+const SettingsMenu = (props) => {
   return (
     <ScrollView>
       { menu.map(menuItem)}
     </ScrollView>
   )
 
-  function menuItem(item) {
+  function menuItem({title, component}) {
+  // TODO: make MenuItem a component
     return (
       <TouchableOpacity
         style={styles.framedSegment}
-        key={item.title}
-        onPress={() => props.navigate(item.component)}
+        key={title}
+        onPress={() => props.navigate(component)}
       >
-        <AppText>{item.title.toLowerCase()}</AppText>
+        <AppText>{title.toLowerCase()}</AppText>
       </TouchableOpacity>
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return({
+    navigate: (page, menuItem) => dispatch(setCurrentPage(page, menuItem)),
+  })
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SettingsMenu)

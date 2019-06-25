@@ -27,5 +27,23 @@ export const pages = {
   'Settings': {
     icon: 'settings',
     component: SettingsMenu,
-  }
+  },
+  'Reminders': {
+    component: settingsViews.Reminders
+  },
+  'NfpSettings': {
+    component: settingsViews.NfpSettings
+  },
+  'DataManagement': {
+    component: settingsViews.DataManagement
+  },
+  'Password': {
+    component: settingsViews.Password
+  },
+  'About': {
+    component: settingsViews.About
+  },
+  'License': {
+    component: settingsViews.License
+  },
 }
