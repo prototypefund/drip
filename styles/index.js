@@ -235,15 +235,22 @@ export default StyleSheet.create({
   menuItem: {
     alignItems: 'center',
     flex: 1,
-    paddingVertical: 15
+    paddingVertical: 15,
+    color: 'red',
   },
-  menuText: {
+  menuItemText: {
     color: fontOnPrimaryColor,
     fontFamily: headerFont
+  },
+  menuItemTextActive: {
+    color: secondaryColor
   },
   menuTextInActive: {
     color: colorInActive,
     fontFamily: headerFont
+  },
+  menuItemIconActive: {
+    color: secondaryColor
   },
   temperatureTextInput: {
     fontSize: 20,

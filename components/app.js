@@ -1,19 +1,14 @@
 import React, { Component } from 'react'
-import { View, BackHandler } from 'react-native'
+import { View, BackHandler, Text } from 'react-native'
 import { connect } from 'react-redux'
 
 import Header from './header'
-import Menu from './menu'
-import Home from './home'
-import Calendar from './calendar'
-import CycleDay from './cycle-day/cycle-day-overview'
-import symptomViews from './cycle-day/symptoms'
-import Chart from './chart/chart'
-import SettingsMenu from './settings/settings-menu'
-import settingsViews from './settings'
-import Stats from './stats'
+import Menu, { isInMainMenu } from './menu'
 
-import {headerTitles, menuTitles} from '../i18n/en/labels'
+import { pages } from './navigation'
+import symptomViews from './cycle-day/symptoms'
+
+import {headerTitles} from '../i18n/en/labels'
 import setupNotifications from '../lib/notifications'
 import { closeDb } from '../db'
 
@@ -31,30 +26,12 @@ const SETTINGS_MENU_PAGE = 'SettingsMenu'
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      currentPage: props.currentPage
-    }
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress)
     setupNotifications(this.navigate)
   }
 
   componentWillUnmount() {
     this.backHandler.remove()
-  }
-
-  navigate = (pageName, props) => {
-    const { currentPage } = this.state
-    // for the back button to work properly, we want to
-    // remember two origins: which menu item we came from
-    // and from where we navigated to the symptom view (day
-    // view or home page)
-    if (this.isMenuItem()) {
-      this.menuOrigin = currentPage
-    }
-    if (!this.isSymptomView()) {
-      this.originForSymptomView = currentPage
-    }
-    this.setState({ currentPage: pageName, currentProps: props })
   }
 
   handleBackButtonPress = () => {
@@ -77,60 +54,55 @@ class App extends Component {
     return true
   }
 
-  isMenuItem() {
-    return Object.keys(menuTitles).includes(this.state.currentPage)
-  }
-
   isSymptomView() {
-    return Object.keys(symptomViews).includes(this.state.currentPage)
+    return Object.keys(symptomViews).includes(this.props.currentPage)
   }
 
   isSettingsView() {
-    return Object.keys(settingsViews).includes(this.state.currentPage)
+    const { currentMenuItem, currentPage } = this.props
+    return (
+      currentMenuItem === 'Settings' &&
+      currentMenuItem !== currentPage
+    )
   }
 
-  isDefaultView() {
-    const { currentPage } = this.state
-    return this.isMenuItem(currentPage) || currentPage === SETTINGS_MENU_PAGE
+  shouldShowHeader() {
+    return isInMainMenu(this.props.currentPage) || this.isSettingsView()
   }
 
   render() {
-    const { currentPage, currentProps } = this.state
-    const pages = {
-      Home,
-      Calendar,
-      CycleDay,
-      Chart,
-      SettingsMenu,
-      ...settingsViews,
-      Stats,
-      ...symptomViews
-    }
-    const Page = pages[currentPage]
+    const { currentPage } = this.props
+    // , currentProps
+    // const allPages = {
+    //   Home,
+    //   Calendar,
+    //   CycleDay,
+    //   Chart,
+    //   SettingsMenu,
+    //   ...settingsViews,
+    //   Stats,
+    //   ...symptomViews
+    // }
+    // console.log('/// allPages: ', allPages)
+    const Page = pages[currentPage].component
     const title = headerTitlesLowerCase[currentPage]
 
     return (
       <View style={{flex: 1}}>
-        {this.isDefaultView() &&
-          <Header title={title} />
+        <Text>{`current page: ${this.props.currentPage}`}</Text>
+        <Text>{`current menu item: ${this.props.currentMenuItem}`}</Text>
+        { this.shouldShowHeader() &&
+            <Header
+              title={title}
+              shouldShowBackButton={this.isSettingsView()}
+            />
         }
-        {(this.isSettingsView()) &&
-          <Header
-            title={title}
-            showBackButton={true}
-            goBack={this.handleBackButtonPress}
-          />
-        }
-
         <Page
           navigate={this.navigate}
-          {...currentProps}
           handleBackButtonPress={this.handleBackButtonPress}
         />
 
-        {!this.isSymptomView() &&
-          <Menu navigate={this.navigate} currentPage={currentPage} />
-        }
+        { !this.isSymptomView() && <Menu /> }
       </View>
     )
   }
@@ -139,6 +111,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return({
     currentPage: state.navigation.currentPage,
+    currentMenuItem: state.navigation.currentMenuItem,
   })
 }
 

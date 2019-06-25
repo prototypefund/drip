@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { Component } from 'react'
 import {
   View,
   Text,
   TouchableOpacity
 } from 'react-native'
+import { connect } from 'react-redux'
 
-import settingsViews from './settings'
+import { setCurrentPage } from '../actions/navigation'
 
 import { menuTitles } from '../i18n/en/labels'
 
-import styles, { iconStyles, secondaryColor } from '../styles'
+import styles, { iconStyles } from '../styles'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const menuTitlesLowerCase = Object.keys(menuTitles).reduce((acc, curr) => {
@@ -17,68 +18,90 @@ const menuTitlesLowerCase = Object.keys(menuTitles).reduce((acc, curr) => {
   return acc
 }, {})
 
-const menuItems = [
-  {
-    labelKey: 'Home',
+export const menuItems = {
+  'Home': {
     icon: 'home',
     component: 'Home',
   },
-  {
-    labelKey: 'Calendar',
+  'Calendar': {
     icon: 'calendar-range',
     component: 'Calendar',
   },
-  {
-    labelKey: 'Chart',
+  'Chart': {
     icon: 'chart-line',
     component: 'Chart',
   },
-  {
-    labelKey: 'Stats',
+  'Stats': {
     icon: 'chart-pie',
     component: 'Stats',
   },
-  {
-    labelKey: 'Settings',
+  'Settings': {
     icon: 'settings',
     component: 'SettingsMenu',
-    children: Object.keys(settingsViews),
   }
-]
+}
 
-const MenuItem = ({ icon, labelKey, active, onPress }) => {
-  const styleActive = active ? { color: secondaryColor } : null
+export const isInMainMenu = (page) => {
+  return menuItems.hasOwnProperty(page)
+}
+
+const MenuItem = ({ item, isActive, onMenuItemSelected }) => {
+  const { icon } = menuItems[item]
   return (
     <TouchableOpacity
       style={styles.menuItem}
-      onPress={onPress}
+      onPress={() => onMenuItemSelected(item)}
     >
-      <Icon name={icon} {...iconStyles.menuIcon} {...styleActive} />
-      <Text style={[styles.menuText, styleActive]}>
-        {menuTitlesLowerCase[labelKey]}
+      <Icon
+        name={icon}
+        {...iconStyles.menuIcon}
+        {...isActive ? styles.menuItemIconActive : null}
+      />
+      <Text style={[
+        styles.menuItemText,
+        isActive ? styles.menuItemTextActive : null
+      ]}>
+        {menuTitlesLowerCase[item]}
       </Text>
     </TouchableOpacity>
   )
 }
 
-const Menu = ({ currentPage, navigate }) => {
-  return (
-    <View style={styles.menu}>
-      { menuItems.map(({ icon, labelKey, component, children }) => {
-        const isActive = (component === currentPage) ||
-          (children && children.indexOf(currentPage) !== -1)
-        return (
-          <MenuItem
-            key={labelKey}
-            labelKey={labelKey}
-            icon={icon}
-            active={isActive}
-            onPress={() => navigate(component)}
-          />
-        )}
-      )}
-    </View >
-  )
+class Menu extends Component {
+  navigate = (page) => {
+    this.props.navigate(page, isInMainMenu(page) ? page : null)
+  }
+  render() {
+    const { currentPage } = this.props
+    return (
+      <View style={styles.menu}>
+        { Object.keys(menuItems)
+          .map((item, i) =>
+            <MenuItem
+              item={item}
+              isActive={item === currentPage}
+              key={i}
+              onMenuItemSelected={this.navigate}
+            />)
+        }
+      </View >
+    )
+  }
 }
 
-export default Menu
+const mapStateToProps = (state) => {
+  return({
+    currentPage: state.navigation.currentPage,
+  })
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return({
+    navigate: (page, menuItem) => dispatch(setCurrentPage(page, menuItem)),
+  })
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Menu)

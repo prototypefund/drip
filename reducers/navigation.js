@@ -6,7 +6,7 @@ export const navigation = (state = {}, action) => {
       state,
       {
         currentPage: action.currentPage,
-        currentMenuItem: action.currentMenuItem
+        currentMenuItem: action.currentMenuItem ? action.currentMenuItem : state.currentMenuItem
       })
   default:
     return state

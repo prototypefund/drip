@@ -23,6 +23,7 @@ export const headerTitles = {
   Calendar: 'Calendar',
   Chart: 'Chart',
   Stats: 'Statistics',
+  Settings: 'Settings',
   SettingsMenu: 'Settings',
   Reminders: settingsTitles.reminders,
   NfpSettings: settingsTitles.nfpSettings,
