@@ -5,6 +5,10 @@ import {
   TouchableOpacity,
   Dimensions
 } from 'react-native'
+import { connect } from 'react-redux'
+
+import { setCurrentPage } from '../../actions/navigation'
+
 import { LocalDate } from 'js-joda'
 import Header from '../header'
 import { getCycleDay } from '../../db'
@@ -22,7 +26,7 @@ const contraceptiveLabels = labels.contraceptives.categories
 const painLabels = labels.pain.categories
 const moodLabels = labels.mood.categories
 
-export default class CycleDayOverView extends Component {
+class CycleDayOverView extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -261,8 +265,22 @@ export default class CycleDayOverView extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return({
+    date: state.main.date,
+  })
+}
 
+const mapDispatchToProps = (dispatch) => {
+  return({
+    navigate: (page, menuItem) => dispatch(setCurrentPage(page, menuItem)),
+  })
+}
 
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CycleDayOverView)
 
 class SymptomBox extends Component {
   render() {

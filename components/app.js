@@ -97,10 +97,7 @@ class App extends Component {
               shouldShowBackButton={this.isSettingsView()}
             />
         }
-        <Page
-          navigate={this.navigate}
-          handleBackButtonPress={this.handleBackButtonPress}
-        />
+        <Page handleBackButtonPress={this.handleBackButtonPress} />
 
         { !this.isSymptomView() && <Menu /> }
       </View>

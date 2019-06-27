@@ -1,4 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
+import { setCurrentPage } from '../actions/navigation'
+import { setDate } from '../actions/main'
+
 import { CalendarList } from 'react-native-calendars'
 import { LocalDate } from 'js-joda'
 import { getBleedingDaysSortedByDate } from '../db'
@@ -7,7 +12,7 @@ import { shadesOfRed, calendarTheme } from '../styles/index'
 import styles from '../styles/index'
 import nothingChanged from '../db/db-unchanged'
 
-export default class CalendarView extends Component {
+class CalendarView extends Component {
   constructor(props) {
     super(props)
     this.bleedingDays = getBleedingDaysSortedByDate()
@@ -36,8 +41,8 @@ export default class CalendarView extends Component {
   }
 
   passDateToDayView = (result) => {
-    const navigate = this.props.navigate
-    navigate('CycleDay', { date: result.dateString })
+    this.props.setDate(result.dateString)
+    this.props.navigate('CycleDay')
   }
   render() {
     return (
@@ -59,6 +64,18 @@ export default class CalendarView extends Component {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return({
+    navigate: (page, menuItem) => dispatch(setCurrentPage(page, menuItem)),
+    setDate: (date) => dispatch(setDate(date)),
+  })
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(CalendarView)
 
 function toCalFormat(bleedingDaysSortedByDate) {
   const todayDateString = LocalDate.now().toString()

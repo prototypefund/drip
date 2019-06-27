@@ -46,4 +46,10 @@ export const pages = {
   'License': {
     component: settingsViews.License
   },
+  'CycleDay': {
+    component: CycleDay
+  },
+  'BleedingEditView': {
+    component: symptomViews.BleedingEditView
+  }
 }

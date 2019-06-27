@@ -13,8 +13,6 @@ import styles, { iconStyles } from '../../../styles'
 export default class SymptomView extends Component {
   constructor(props) {
     super()
-    this.date = props.date
-    this.navigate = props.navigate
     this.state = {
       showInfo: false
     }
@@ -51,7 +49,6 @@ export default class SymptomView extends Component {
       <View style={{flex: 1}}>
         <Header
           title={headerTitles[this.symptomName].toLowerCase()}
-          date={this.date}
           goBack={this.props.handleBackButtonPress}
           deleteIconActive={this.isDeleteIconActive()}
           deleteEntry={() => {

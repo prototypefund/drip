@@ -3,6 +3,11 @@ import {
   Text, View, TouchableOpacity
 } from 'react-native'
 import { Surface, Group as G, Path, Shape } from 'react-native/Libraries/ART/ReactNativeART'
+import { connect } from 'react-redux'
+
+import { setCurrentPage } from '../../actions/navigation'
+import { setDate } from '../../actions/main'
+
 import { LocalDate } from 'js-joda'
 import moment from 'moment'
 import styles from './styles'
@@ -14,7 +19,7 @@ import { normalizeToScale } from './y-axis'
 
 const label = styles.column.label
 
-export default class DayColumn extends Component {
+class DayColumn extends Component {
   constructor(props) {
     super()
     const dateString = props.dateString
@@ -63,6 +68,11 @@ export default class DayColumn extends Component {
 
   shouldComponentUpdate() {
     return false
+  }
+
+  onDaySelect = (date) => {
+    this.props.setDate(date)
+    this.props.navigate('CycleDay')
   }
 
   render() {
@@ -246,7 +256,7 @@ export default class DayColumn extends Component {
 
     return (
       <TouchableOpacity
-        onPress={() => this.props.navigate('CycleDay', { date: dateString })}
+        onPress={() => this.onDaySelect(dateString)}
         activeOpacity={1}
       >
         <View>
@@ -268,6 +278,17 @@ export default class DayColumn extends Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return({
+    navigate: (page, menuItem) => dispatch(setCurrentPage(page, menuItem)),
+    setDate: (date) => dispatch(setDate(date)),
+  })
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(DayColumn)
 
 function SymptomIconView(props) {
   const style = [styles.symptomRow, {height: props.symptomHeight}]

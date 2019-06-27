@@ -1,6 +1,10 @@
 import { ChronoUnit, LocalDate } from 'js-joda'
 import React, { Component } from 'react'
 import { ScrollView, View } from 'react-native'
+import { connect } from 'react-redux'
+
+import { setCurrentPage } from '../actions/navigation'
+import { setDate } from '../actions/main'
 
 import DripHomeIcon from '../assets/drip-home-icons'
 import { getCycleDay } from '../db'
@@ -50,7 +54,7 @@ const HomeElement = ({ children, onPress, buttonColor, buttonLabel  }) => {
   )
 }
 
-export default class Home extends Component {
+class Home extends Component {
   constructor(props) {
     super(props)
     const { getCycleDayNumber, getPredictedMenses } = cycleModule()
@@ -70,10 +74,24 @@ export default class Home extends Component {
 
   passTodayTo(componentName) {
     const { navigate } = this.props
-    navigate(componentName, {
-      date: this.todayDateString,
-      cycleDay: getCycleDay(this.todayDateString)
-    })
+    // navigate(componentName, {
+    //   date: this.todayDateString,
+    //   cycleDay: getCycleDay(this.todayDateString)
+    // })
+  }
+
+  setTodayDate = () => {
+    this.props.setDate(this.todayDateString)
+  }
+
+  navigateToCycleDayView = () => {
+    this.setTodayDate()
+    this.props.navigate('CycleDay')
+  }
+
+  navigateToBleedingEditView = () => {
+    this.setTodayDate()
+    this.props.navigate('BleedingEditView')
   }
 
   render() {
@@ -91,7 +109,7 @@ export default class Home extends Component {
           <View style={styles.homeView}>
 
             <HomeElement
-              onPress={ () => this.passTodayTo('CycleDay') }
+              onPress={this.navigateToCycleDayView}
               buttonColor={ cycleDayColor }
               buttonLabel={ labels.editToday }
             >
@@ -106,7 +124,7 @@ export default class Home extends Component {
             </HomeElement>
 
             <HomeElement
-              onPress={ () => this.passTodayTo('BleedingEditView') }
+              onPress={this.navigateToBleedingEditView}
               buttonColor={ periodColor }
               buttonLabel={ labels.trackPeriod }
             >
@@ -147,6 +165,18 @@ export default class Home extends Component {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return({
+    navigate: (page, menuItem) => dispatch(setCurrentPage(page, menuItem)),
+    setDate: (date) => dispatch(setDate(date)),
+  })
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Home)
 
 function getTimes(prediction) {
   const todayDate = LocalDate.now()

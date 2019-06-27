@@ -5,12 +5,14 @@ import {
   TouchableOpacity,
   Dimensions
 } from 'react-native'
+import { connect } from 'react-redux'
+
 import styles, { iconStyles } from '../../styles'
 import Icon from 'react-native-vector-icons/AntDesign'
 import NavigationArrow from './navigation-arrow'
 import formatDate from '../helpers/format-date'
 
-export default function SymptomViewHeader(props) {
+const SymptomViewHeader = (props) => {
   const middle = Dimensions.get('window').width / 2
   return (
     <View style={[styles.header, styles.headerCycleDay, styles.headerSymptom]}>
@@ -47,3 +49,14 @@ export default function SymptomViewHeader(props) {
     </View>
   )
 }
+
+const mapStateToProps = (state) => {
+  return({
+    date: state.main.date,
+  })
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(SymptomViewHeader)
