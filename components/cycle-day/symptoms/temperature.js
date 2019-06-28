@@ -42,7 +42,9 @@ export default class Temp extends SymptomView {
       if (temp.value === Math.floor(temp.value)) {
         this.state.temperature = `${this.state.temperature}.0`
       }
-      this.state.outOfRangeWarning = makeOutOfRangeWarningMessage(this.state.temperature)
+      // TODO: might be better to make it a component
+      this.state.outOfRangeWarning =
+        makeOutOfRangeWarningMessage(this.state.temperature)
     } else {
       const prevTemp = getPreviousTemperature(props.date)
       if (prevTemp) {

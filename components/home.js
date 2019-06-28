@@ -7,7 +7,6 @@ import { setCurrentPage } from '../actions/navigation'
 import { setDate } from '../actions/main'
 
 import DripHomeIcon from '../assets/drip-home-icons'
-import { getCycleDay } from '../db'
 import {
   bleedingPrediction as predictLabels,
   home as labels
@@ -72,14 +71,6 @@ class Home extends Component {
     }
   }
 
-  passTodayTo(componentName) {
-    const { navigate } = this.props
-    // navigate(componentName, {
-    //   date: this.todayDateString,
-    //   cycleDay: getCycleDay(this.todayDateString)
-    // })
-  }
-
   setTodayDate = () => {
     this.props.setDate(this.todayDateString)
   }
@@ -96,7 +87,6 @@ class Home extends Component {
 
   render() {
     const { cycleDayNumber, phase, status } = this.state
-    const { navigate } = this.props
     const cycleDayMoreText = cycleDayNumber ?
       labels.cycleDayKnown(cycleDayNumber) :
       labels.cycleDayNotEnoughInfo
@@ -120,7 +110,9 @@ class Home extends Component {
                 {cycleDayNumber || labels.unknown}
               </IconText>
 
-              <AppText style={styles.homeDescriptionText}>{cycleDayMoreText}</AppText>
+              <AppText style={styles.homeDescriptionText}>
+                {cycleDayMoreText}
+              </AppText>
             </HomeElement>
 
             <HomeElement
@@ -140,7 +132,7 @@ class Home extends Component {
             </HomeElement>
 
             <HomeElement
-              onPress={ () => navigate('Chart') }
+              onPress={ () => this.props.navigate('Chart') }
               buttonColor={ secondaryColor }
               buttonLabel={ labels.checkFertility }
             >
@@ -182,14 +174,20 @@ function getTimes(prediction) {
   const todayDate = LocalDate.now()
   const predictedBleedingStart = LocalDate.parse(prediction[0][0])
   /* the range of predicted bleeding days can be either 3 or 5 */
-  const predictedBleedingEnd = LocalDate.parse(prediction[0][ prediction[0].length - 1 ])
+  const predictedBleedingEnd =
+    LocalDate.parse(prediction[0][ prediction[0].length - 1 ])
   const daysToEnd = todayDate.until(predictedBleedingEnd, ChronoUnit.DAYS)
   return { todayDate, predictedBleedingStart, predictedBleedingEnd, daysToEnd }
 }
 
 function determinePredictionText(bleedingPrediction) {
   if (!bleedingPrediction.length) return predictLabels.noPrediction
-  const { todayDate, predictedBleedingStart, predictedBleedingEnd, daysToEnd } = getTimes(bleedingPrediction)
+  const {
+    todayDate,
+    predictedBleedingStart,
+    predictedBleedingEnd,
+    daysToEnd
+  } = getTimes(bleedingPrediction)
   if (todayDate.isBefore(predictedBleedingStart)) {
     return predictLabels.predictionInFuture(
       todayDate.until(predictedBleedingStart, ChronoUnit.DAYS),
@@ -213,7 +211,12 @@ function determinePredictionText(bleedingPrediction) {
 
 function getBleedingPredictionRange(prediction) {
   if (!prediction.length) return labels.unknown
-  const { todayDate, predictedBleedingStart, predictedBleedingEnd, daysToEnd } = getTimes(prediction)
+  const {
+    todayDate,
+    predictedBleedingStart,
+    predictedBleedingEnd,
+    daysToEnd
+  } = getTimes(prediction)
   if (todayDate.isBefore(predictedBleedingStart)) {
     return `${todayDate.until(predictedBleedingStart, ChronoUnit.DAYS)}-${todayDate.until(predictedBleedingEnd, ChronoUnit.DAYS)}`
   }

@@ -8,22 +8,23 @@ import AppText from '../app-text'
 
 export default class SelectTabGroup extends Component {
   render() {
+    const { buttons, active, onSelect } = this.props
     return (
       <View style={styles.selectTabGroup}>
         {
-          this.props.buttons.map(({ label, value }, i) => {
+          buttons.map(({ label, value }, i) => {
             let firstOrLastStyle
-            if (i === this.props.buttons.length - 1) {
+            if (i === buttons.length - 1) {
               firstOrLastStyle = styles.selectTabLast
             } else if (i === 0) {
               firstOrLastStyle = styles.selectTabFirst
             }
             let activeStyle
-            const isActive = value === this.props.active
+            const isActive = value === active
             if (isActive) activeStyle = styles.selectTabActive
             return (
               <TouchableOpacity
-                onPress={() => isActive ? this.props.onSelect(null) : this.props.onSelect(value)}
+                onPress={() => isActive ? onSelect(null) : onSelect(value)}
                 key={i}
                 activeOpacity={1}
               >

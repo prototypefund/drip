@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/Entypo'
 import styles, { iconStyles } from '../../../styles'
 
 export default class SymptomView extends Component {
-  constructor(props) {
+  constructor() {
     super()
     this.state = {
       showInfo: false
