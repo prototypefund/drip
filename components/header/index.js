@@ -10,7 +10,7 @@ export default function Header(p) {
 
   if (props.isCycleDayOverView) {
     return (<CycleDayHeader {...props} />)
-  } else if (props.showBackButton) {
+  } else if (props.shouldShowBackButton) {
     return (<BackButtonHeader {...props} />)
   }
   else {

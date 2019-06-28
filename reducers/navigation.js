@@ -1,3 +1,5 @@
+import { isInMainMenu } from '../components/menu'
+
 export const navigation = (state = {}, action) => {
   switch (action.type) {
   case 'NAVIGATE_TO_PAGE':
@@ -6,7 +8,10 @@ export const navigation = (state = {}, action) => {
       state,
       {
         currentPage: action.currentPage,
-        currentMenuItem: action.currentMenuItem ? action.currentMenuItem : state.currentMenuItem
+        previousPage: state.currentPage,
+        currentMenuItem: isInMainMenu(action.currentPage) ?
+          action.currentPage :
+          state.currentMenuItem
       })
   default:
     return state

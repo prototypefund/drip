@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { View, BackHandler, Text } from 'react-native'
 import { connect } from 'react-redux'
 
+import { setCurrentPage } from '../actions/navigation'
+
 import Header from './header'
 import Menu, { isInMainMenu } from './menu'
 
@@ -19,15 +21,15 @@ const headerTitlesLowerCase = Object.keys(headerTitles).reduce((acc, curr) => {
   return acc
 }, {})
 
-const HOME_PAGE = 'Home'
-const CYCLE_DAY_PAGE = 'CycleDay'
-const SETTINGS_MENU_PAGE = 'SettingsMenu'
-
 class App extends Component {
   constructor(props) {
     super(props)
-    this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress)
-    setupNotifications(this.navigate)
+    this.backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      this.handleBackButtonPress
+    )
+    // TODO: connect notifications to a store
+    setupNotifications(this.props.navigate)
   }
 
   componentWillUnmount() {
@@ -35,23 +37,13 @@ class App extends Component {
   }
 
   handleBackButtonPress = () => {
-    const { currentPage, currentProps } = this.state
-    if (currentPage === HOME_PAGE) {
-      closeDb()
-      return false
+    const { previousPage, navigate } = this.props
+    if (previousPage) {
+      navigate(previousPage)
+      return true
     }
-    if (this.isSymptomView()) {
-      this.navigate(
-        this.originForSymptomView, { date: currentProps.date }
-      )
-    } else if (this.isSettingsView()) {
-      this.navigate(SETTINGS_MENU_PAGE)
-    } else if (currentPage === CYCLE_DAY_PAGE) {
-      this.navigate(this.menuOrigin)
-    } else {
-      this.navigate(HOME_PAGE)
-    }
-    return true
+    closeDb()
+    return false
   }
 
   isSymptomView() {
@@ -72,24 +64,14 @@ class App extends Component {
 
   render() {
     const { currentPage } = this.props
-    // , currentProps
-    // const allPages = {
-    //   Home,
-    //   Calendar,
-    //   CycleDay,
-    //   Chart,
-    //   SettingsMenu,
-    //   ...settingsViews,
-    //   Stats,
-    //   ...symptomViews
-    // }
-    // console.log('/// allPages: ', allPages)
+
     const Page = pages[currentPage].component
     const title = headerTitlesLowerCase[currentPage]
 
     return (
       <View style={{flex: 1}}>
         <Text>{`current page: ${this.props.currentPage}`}</Text>
+        <Text>{`previous page: ${this.props.previousPage}`}</Text>
         <Text>{`current menu item: ${this.props.currentMenuItem}`}</Text>
         { this.shouldShowHeader() &&
             <Header
@@ -106,13 +88,21 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const { currentPage, previousPage, currentMenuItem } = state.navigation
   return({
-    currentPage: state.navigation.currentPage,
-    currentMenuItem: state.navigation.currentMenuItem,
+    currentPage,
+    previousPage,
+    currentMenuItem,
+  })
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return({
+    navigate: (page, menuItem) => dispatch(setCurrentPage(page, menuItem)),
   })
 }
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps,
 )(App)

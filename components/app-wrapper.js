@@ -16,7 +16,8 @@ import rootReducer from '../reducers'
 const initialStore = {
   navigation: {
     currentPage: "Home",
-    currentMenuItem: "Home"
+    previousPage: null,
+    currentMenuItem: "Home",
   }
 }
 

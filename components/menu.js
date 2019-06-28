@@ -68,9 +68,6 @@ const MenuItem = ({ item, isActive, onMenuItemSelected }) => {
 }
 
 class Menu extends Component {
-  navigate = (page) => {
-    this.props.navigate(page, isInMainMenu(page) ? page : null)
-  }
   render() {
     const { currentPage } = this.props
     return (
@@ -81,7 +78,7 @@ class Menu extends Component {
               item={item}
               isActive={item === currentPage}
               key={i}
-              onMenuItemSelected={this.navigate}
+              onMenuItemSelected={this.props.navigate}
             />)
         }
       </View >
@@ -97,7 +94,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return({
-    navigate: (page, menuItem) => dispatch(setCurrentPage(page, menuItem)),
+    navigate: (page) => dispatch(setCurrentPage(page)),
   })
 }
 

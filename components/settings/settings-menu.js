@@ -46,7 +46,7 @@ const SettingsMenu = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return({
-    navigate: (page, menuItem) => dispatch(setCurrentPage(page, menuItem)),
+    navigate: (page) => dispatch(setCurrentPage(page)),
   })
 }
 

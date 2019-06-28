@@ -1,6 +1,5 @@
-export const setCurrentPage = (currentPage, currentMenuItem) => (
+export const setCurrentPage = (currentPage) => (
   {
     type: 'NAVIGATE_TO_PAGE',
     currentPage,
-    currentMenuItem
   })

@@ -160,7 +160,7 @@ class Home extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return({
-    navigate: (page, menuItem) => dispatch(setCurrentPage(page, menuItem)),
+    navigate: (page) => dispatch(setCurrentPage(page)),
     setDate: (date) => dispatch(setDate(date)),
   })
 }
