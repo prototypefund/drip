@@ -8,6 +8,8 @@ import { connect } from 'react-redux'
 
 import { setCurrentPage } from '../actions/navigation'
 
+import { pages, mainMenu } from './navigation'
+
 import { menuTitles } from '../i18n/en/labels'
 
 import styles, { iconStyles } from '../styles'
@@ -18,35 +20,12 @@ const menuTitlesLowerCase = Object.keys(menuTitles).reduce((acc, curr) => {
   return acc
 }, {})
 
-export const menuItems = {
-  'Home': {
-    icon: 'home',
-    component: 'Home',
-  },
-  'Calendar': {
-    icon: 'calendar-range',
-    component: 'Calendar',
-  },
-  'Chart': {
-    icon: 'chart-line',
-    component: 'Chart',
-  },
-  'Stats': {
-    icon: 'chart-pie',
-    component: 'Stats',
-  },
-  'Settings': {
-    icon: 'settings',
-    component: 'SettingsMenu',
-  }
-}
-
 export const isInMainMenu = (page) => {
-  return menuItems.hasOwnProperty(page)
+  return mainMenu.indexOf(page) !== page
 }
 
 const MenuItem = ({ item, isActive, onMenuItemSelected }) => {
-  const { icon } = menuItems[item]
+  const { icon } = pages[item]
   return (
     <TouchableOpacity
       style={styles.menuItem}
@@ -67,19 +46,24 @@ const MenuItem = ({ item, isActive, onMenuItemSelected }) => {
   )
 }
 
+const getParentPage = (currentPage) => {
+  const page = pages[currentPage]
+  return page.hasOwnProperty('parentPage') ? page.parentPage : null
+}
+
 class Menu extends Component {
   render() {
-    const { currentPage } = this.props
+    const { currentPage, navigate } = this.props
+    const currentParentPage = getParentPage(currentPage)
     return (
       <View style={styles.menu}>
-        { Object.keys(menuItems)
-          .map((item, i) =>
-            <MenuItem
-              item={item}
-              isActive={item === currentPage}
-              key={i}
-              onMenuItemSelected={this.props.navigate}
-            />)
+        { mainMenu.map((item, i) =>
+          <MenuItem
+            item={item}
+            isActive={item === currentPage || item === currentParentPage}
+            key={i}
+            onMenuItemSelected={navigate}
+          />)
         }
       </View >
     )
