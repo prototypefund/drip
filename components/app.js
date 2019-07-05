@@ -3,6 +3,7 @@ import { View, BackHandler, Text } from 'react-native'
 import { connect } from 'react-redux'
 
 import { setCurrentPage } from '../actions/navigation'
+import { getNavigation } from '../slices/navigation'
 
 import Header from './header'
 import Menu, { isInMainMenu } from './menu'
@@ -63,16 +64,15 @@ class App extends Component {
   }
 
   render() {
-    const { currentPage } = this.props
+    const { currentPage, previousPage } = this.props.navigation
 
     const Page = pages[currentPage].component
     const title = headerTitlesLowerCase[currentPage]
 
     return (
       <View style={{flex: 1}}>
-        <Text>{`current page: ${this.props.currentPage}`}</Text>
-        <Text>{`previous page: ${this.props.previousPage}`}</Text>
-        <Text>{`current menu item: ${this.props.currentMenuItem}`}</Text>
+        <Text>{`current page: ${currentPage}`}</Text>
+        <Text>{`previous page: ${previousPage}`}</Text>
         { this.shouldShowHeader() &&
             <Header
               title={title}
@@ -88,11 +88,8 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { currentPage, previousPage, currentMenuItem } = state.navigation
   return({
-    currentPage,
-    previousPage,
-    currentMenuItem,
+    navigation: getNavigation(state),
   })
 }
 

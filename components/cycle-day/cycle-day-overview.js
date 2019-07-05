@@ -8,6 +8,7 @@ import {
 import { connect } from 'react-redux'
 
 import { setCurrentPage } from '../../actions/navigation'
+import { getDate } from '../../slices/date'
 
 import { LocalDate } from 'js-joda'
 import Header from '../header'
@@ -267,7 +268,7 @@ class CycleDayOverView extends Component {
 
 const mapStateToProps = (state) => {
   return({
-    date: state.main.date,
+    date: getDate(state),
   })
 }
 

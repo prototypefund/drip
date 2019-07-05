@@ -6,7 +6,7 @@ import { Surface, Group as G, Path, Shape } from 'react-native/Libraries/ART/Rea
 import { connect } from 'react-redux'
 
 import { setCurrentPage } from '../../actions/navigation'
-import { setDate } from '../../actions/main'
+import { setDate } from '../../slices/date'
 
 import { LocalDate } from 'js-joda'
 import moment from 'moment'

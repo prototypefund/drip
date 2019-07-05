@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { setCurrentPage } from '../actions/navigation'
-import { setDate } from '../actions/main'
+import { setDate } from '../slices/date'
 
 import { CalendarList } from 'react-native-calendars'
 import { LocalDate } from 'js-joda'

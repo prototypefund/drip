@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import main from './main'
-import navigation from './navigation'
+import navigation from '../slices/navigation'
+import date from '../slices/date'
 
 export default combineReducers({
-  main,
   navigation,
+  date,
 })

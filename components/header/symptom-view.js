@@ -12,6 +12,8 @@ import Icon from 'react-native-vector-icons/AntDesign'
 import NavigationArrow from './navigation-arrow'
 import formatDate from '../helpers/format-date'
 
+import { getDate } from '../../slices/date'
+
 const SymptomViewHeader = (props) => {
   const middle = Dimensions.get('window').width / 2
   return (
@@ -52,7 +54,7 @@ const SymptomViewHeader = (props) => {
 
 const mapStateToProps = (state) => {
   return({
-    date: state.main.date,
+    date: getDate(state)
   })
 }
 

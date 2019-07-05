@@ -4,7 +4,7 @@ import { ScrollView, View } from 'react-native'
 import { connect } from 'react-redux'
 
 import { setCurrentPage } from '../actions/navigation'
-import { setDate } from '../actions/main'
+import { setDate } from '../slices/date'
 
 import DripHomeIcon from '../assets/drip-home-icons'
 import {
