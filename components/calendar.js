@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { setCurrentPage } from '../actions/navigation'
+import { goToPage } from '../slices/navigation'
 import { setDate } from '../slices/date'
 
 import { CalendarList } from 'react-native-calendars'
@@ -67,7 +67,7 @@ class CalendarView extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return({
-    navigate: (page, menuItem) => dispatch(setCurrentPage(page, menuItem)),
+    navigate: (page) => dispatch(goToPage(page)),
     setDate: (date) => dispatch(setDate(date)),
   })
 }

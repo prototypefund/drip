@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { View, BackHandler, Text } from 'react-native'
 import { connect } from 'react-redux'
 
-import { setCurrentPage } from '../actions/navigation'
-import { getNavigation } from '../slices/navigation'
+import { getNavigation, goToPage, goBack } from '../slices/navigation'
 
 import Header from './header'
 import Menu, { isInMainMenu } from './menu'
@@ -38,13 +37,14 @@ class App extends Component {
   }
 
   handleBackButtonPress = () => {
-    const { previousPage, navigate } = this.props
-    if (previousPage) {
-      navigate(previousPage)
+    const { navigateBack, navigation } = this.props
+    if (navigation.previousPages.length > 0) {
+      navigateBack()
       return true
+    } else {
+      closeDb()
+      return false
     }
-    closeDb()
-    return false
   }
 
   isSymptomView() {
@@ -64,15 +64,14 @@ class App extends Component {
   }
 
   render() {
-    const { currentPage, previousPage } = this.props.navigation
-
+    const { currentPage, previousPages } = this.props.navigation
     const Page = pages[currentPage].component
     const title = headerTitlesLowerCase[currentPage]
 
     return (
       <View style={{flex: 1}}>
         <Text>{`current page: ${currentPage}`}</Text>
-        <Text>{`previous page: ${previousPage}`}</Text>
+        <Text>{`previous page: ${previousPages}`}</Text>
         { this.shouldShowHeader() &&
             <Header
               title={title}
@@ -95,7 +94,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return({
-    navigate: (page, menuItem) => dispatch(setCurrentPage(page, menuItem)),
+    navigate: (page) => dispatch(goToPage(page)),
+    navigateBack: () => dispatch(goBack())
   })
 }
 

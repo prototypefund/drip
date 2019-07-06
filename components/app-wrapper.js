@@ -10,18 +10,7 @@ import License from './license'
 import AppLoadingView from './app-loading'
 
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
-import rootReducer from '../reducers'
-
-const initialStore = {
-  navigation: {
-    currentPage: "Home",
-    previousPage: null,
-    currentMenuItem: "Home",
-  }
-}
-
-const store = createStore(rootReducer, initialStore)
+import store from "../store"
 
 export default class AppWrapper extends Component {
   constructor() {
@@ -83,18 +72,18 @@ export default class AppWrapper extends Component {
       shouldShowApp,
     } = this.state
 
-    let firstView = null
+    let initialView = null
 
     if (isCheckingLicenseAgreement) {
-      firstView = <AppLoadingView />
+      initialView = <AppLoadingView />
     } else if (shouldShowLicenseAgreement) {
-      firstView = <License setLicense={this.disableShowLicenseAgreement}/>
+      initialView = <License setLicense={this.disableShowLicenseAgreement}/>
     } else if (shouldShowPasswordPrompt) {
-      firstView = <PasswordPrompt enableShowApp={this.enableShowApp} />
+      initialView = <PasswordPrompt enableShowApp={this.enableShowApp} />
     } else if (shouldShowApp) {
-      firstView = <App />
+      initialView = <App />
     }
 
-    return <Provider store={store}>{firstView}</Provider>
+    return <Provider store={store}>{initialView}</Provider>
   }
 }

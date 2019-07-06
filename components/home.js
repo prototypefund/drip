@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { ScrollView, View } from 'react-native'
 import { connect } from 'react-redux'
 
-import { setCurrentPage } from '../actions/navigation'
+import { goToPage } from '../slices/navigation'
 import { setDate } from '../slices/date'
 
 import DripHomeIcon from '../assets/drip-home-icons'
@@ -160,7 +160,7 @@ class Home extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return({
-    navigate: (page) => dispatch(setCurrentPage(page)),
+    navigate: (page) => dispatch(goToPage(page)),
     setDate: (date) => dispatch(setDate(date)),
   })
 }

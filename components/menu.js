@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 
-import { setCurrentPage } from '../actions/navigation'
+import { getNavigation, goToPage } from '../slices/navigation'
 
 import { pages, mainMenu } from './navigation'
 
@@ -53,7 +53,7 @@ const getParentPage = (currentPage) => {
 
 class Menu extends Component {
   render() {
-    const { currentPage, navigate } = this.props
+    const { currentPage } = this.props.navigation
     const currentParentPage = getParentPage(currentPage)
     return (
       <View style={styles.menu}>
@@ -62,7 +62,7 @@ class Menu extends Component {
             item={item}
             isActive={item === currentPage || item === currentParentPage}
             key={i}
-            onMenuItemSelected={navigate}
+            onMenuItemSelected={this.props.navigate}
           />)
         }
       </View >
@@ -72,13 +72,13 @@ class Menu extends Component {
 
 const mapStateToProps = (state) => {
   return({
-    currentPage: state.navigation.currentPage,
+    navigation: getNavigation(state),
   })
 }
 
 const mapDispatchToProps = (dispatch) => {
   return({
-    navigate: (page) => dispatch(setCurrentPage(page)),
+    navigate: (page) => dispatch(goToPage(page)),
   })
 }
 

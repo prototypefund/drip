@@ -5,7 +5,7 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 
-import { setCurrentPage } from '../../actions/navigation'
+import { goToPage } from '../../slices/navigation'
 
 import styles from '../../styles/index'
 import settingsLabels from '../../i18n/en/settings'
@@ -46,7 +46,7 @@ const SettingsMenu = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return({
-    navigate: (page) => dispatch(setCurrentPage(page)),
+    navigate: (page) => dispatch(goToPage(page)),
   })
 }
 
