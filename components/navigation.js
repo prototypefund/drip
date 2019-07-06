@@ -60,7 +60,31 @@ const pages = {
   },
   'BleedingEditView': {
     component: symptomViews.BleedingEditView
-  }
+  },
+  'TemperatureEditView': {
+    component: symptomViews.TemperatureEditView
+  },
+  'MucusEditView': {
+    component: symptomViews.MucusEditView
+  },
+  'CervixEditView': {
+    component: symptomViews.CervixEditView
+  },
+  'NoteEditView': {
+    component: symptomViews.NoteEditView
+  },
+  'DesireEditView': {
+    component: symptomViews.DesireEditView
+  },
+  'SexEditView': {
+    component: symptomViews.SexEditView
+  },
+  'PainEditView': {
+    component: symptomViews.PainEditView
+  },
+  'MoodEditView': {
+    component: symptomViews.MoodEditView
+  },
 }
 
 const mainMenu = Object.keys(pages)

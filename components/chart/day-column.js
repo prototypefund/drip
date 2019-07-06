@@ -5,7 +5,7 @@ import {
 import { Surface, Group as G, Path, Shape } from 'react-native/Libraries/ART/ReactNativeART'
 import { connect } from 'react-redux'
 
-import { setCurrentPage } from '../../actions/navigation'
+import { goToPage } from '../../slices/navigation'
 import { setDate } from '../../slices/date'
 
 import { LocalDate } from 'js-joda'
@@ -280,7 +280,7 @@ class DayColumn extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return({
-    navigate: (page, menuItem) => dispatch(setCurrentPage(page, menuItem)),
+    navigate: (page) => dispatch(goToPage(page)),
     setDate: (date) => dispatch(setDate(date)),
   })
 }

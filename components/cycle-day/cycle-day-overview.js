@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 
-import { setCurrentPage } from '../../actions/navigation'
+import { goToPage } from '../../slices/navigation'
 import { getDate } from '../../slices/date'
 
 import { LocalDate } from 'js-joda'
@@ -274,7 +274,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return({
-    navigate: (page, menuItem) => dispatch(setCurrentPage(page, menuItem)),
+    navigate: (page) => dispatch(goToPage(page)),
   })
 }
 
