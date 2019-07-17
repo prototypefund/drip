@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import {
   View, Alert, TouchableOpacity
 } from 'react-native'
+import { connect } from 'react-redux'
+
+import { getDate } from '../../../slices/date'
+
 import { saveSymptom } from '../../../db'
 import InfoPopUp from './info-symptom'
 import Header from '../../header/symptom-view'
@@ -10,7 +14,9 @@ import { sharedDialogs } from '../../../i18n/en/cycle-day'
 import Icon from 'react-native-vector-icons/Entypo'
 import styles, { iconStyles } from '../../../styles'
 
-export default class SymptomView extends Component {
+import Bleeding from './bleedingView'
+
+class SymptomView extends Component {
   constructor() {
     super()
     this.state = {
@@ -48,7 +54,10 @@ export default class SymptomView extends Component {
     return (
       <View style={{flex: 1}}>
         <Header
-          title={headerTitles[this.symptomName].toLowerCase()}
+          title={
+            headerTitles[this.symptomName] &&
+            headerTitles[this.symptomName].toLowerCase()
+          }
           goBack={this.props.handleBackButtonPress}
           deleteIconActive={this.isDeleteIconActive()}
           deleteEntry={() => {
@@ -69,7 +78,7 @@ export default class SymptomView extends Component {
           }}
         />
         <View flex={1}>
-          { this.renderContent() }
+          <Bleeding />
           <TouchableOpacity
             onPress={() => {
               this.setState({showInfo: true})
@@ -92,3 +101,14 @@ export default class SymptomView extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return({
+    date: getDate(state)
+  })
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(SymptomView)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import {
   Switch,
   ScrollView
@@ -7,9 +7,8 @@ import styles from '../../../styles'
 import { bleeding } from '../../../i18n/en/cycle-day'
 import SelectTabGroup from '../select-tab-group'
 import SymptomSection from './symptom-section'
-import SymptomView from './symptom-view'
 
-export default class Bleeding extends SymptomView {
+export default class Bleeding extends Component {
   constructor(props) {
     super(props)
     console.log('/// props: ', props)
@@ -35,7 +34,7 @@ export default class Bleeding extends SymptomView {
     })
   }
 
-  renderContent() {
+  render() {
     const bleedingRadioProps = [
       { label: bleeding.labels[0], value: 0 },
       { label: bleeding.labels[1], value: 1 },
