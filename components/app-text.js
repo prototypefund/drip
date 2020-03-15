@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Text } from 'react-native'
-import styles from "../styles"
+import styles from '../styles/redesign'
 import Link from './link'
 
 export default function AppText({ children, onPress, numberOfLines, style}) {
   // we parse for links in case the text contains any
   return (
     <Link>
-      <Text style={[styles.appText, style]}
+      <Text style={[styles.mainText, style]}
         onPress={onPress}
         numberOfLines={numberOfLines}
       >

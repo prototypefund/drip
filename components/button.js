@@ -2,30 +2,21 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { TouchableOpacity } from 'react-native'
 import AppText from './app-text'
-import styles from '../styles'
+import styles from '../styles/redesign'
 
-export default function Button({
-  backgroundColor,
-  children,
-  onPress,
-  style,
-  testID
-}) {
+export default function Button({ children, onPress, style, testID }) {
+  const commonStyle = [styles.button, style]
+
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={[styles.button, style, { backgroundColor }]}
-      testID={testID}
-    >
-      <AppText style={styles.homeButtonText}>{children}</AppText>
+    <TouchableOpacity onPress={onPress} style={commonStyle} testID={testID} >
+      <AppText style={styles.buttonText}>{children}</AppText>
     </TouchableOpacity>
   )
 }
 
 Button.propTypes = {
-  backgroundColor: PropTypes.string,
   children: PropTypes.node,
-  onPress: PropTypes.func,
+  onPress: PropTypes.func.isRequired,
   style: PropTypes.object,
-  testID: PropTypes.string
+  testID: PropTypes.string,
 }
