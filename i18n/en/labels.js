@@ -1,6 +1,12 @@
 import labels from './settings'
 const settingsTitles = labels.menuTitles
 
+export const homeRedesign = {
+  cycleDay: ' day of your cycle',
+  cyclePhase: ' cycle phase - ',
+  addData: 'add data for today'
+}
+
 export const shared = {
   cancel: 'Cancel',
   save: 'Save',
@@ -69,7 +75,7 @@ export const stats = {
 
 export const bleedingPrediction = {
   noPrediction: 'There is not enough period data to predict the next one.',
-  predictionInFuture: (startDays, endDays) => `Your next period is likely to start in ${startDays} to ${endDays} days.`,
+  predictionInFuture: (startDays, endDays) => `Your next period is likely to start within ${startDays} to ${endDays} days.`,
   predictionStartedXDaysLeft: (numberOfDays) => `Your period is likely to start today or during the next ${numberOfDays} days.`,
   predictionStarted1DayLeft: 'Your period is likely to start today or tomorrow.',
   predictionStartedNoDaysLeft: 'Your period is likely to start today.',
@@ -110,7 +116,7 @@ export const fertilityStatus = {
   fertileUntilEvening: 'Fertile phase ends in the evening',
   unknown: 'We cannot show any cycle information because no period data has been added.',
   preOvuText: "With NFP rules, you may assume 5 days of infertility at the beginning of your cycle, provided you don't observe any fertile cervical mucus or cervix values.",
-  periOvuText: "We have not been able to detect both a temperature shift and cervical mucus or cervix shift. Please find more information on NFP rules here:",
+  periOvuText: "We have not been able to detect both a temperature shift and cervical mucus or cervix shift. Please find more information on NFP rules here: https://gitlab.com/bloodyhealth/drip/wikis/home.",
   postOvuText: tempRule => {
     return (
       'We have detected a temperature shift (' + ['regular', '1st exception', '2nd exception'][tempRule] +
