@@ -9,12 +9,12 @@ import { getNavigation, navigate } from '../../slices/navigation'
 
 import { pages } from '../pages'
 
-import styles from '../../styles'
+import { default as local } from './styles'
 
 const Menu = ({ navigate, navigation }) => {
   const menuItems = pages.filter(page => page.isInMenu)
   return (
-    <View style={styles.menu}>
+    <View style={local.menu}>
       { menuItems.map(({ icon, label, component, children }) => {
         const isActive = (component === navigation.currentPage) ||
           (children && children.indexOf(navigation.currentPage) !== -1)

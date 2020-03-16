@@ -2,27 +2,25 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Text, TouchableOpacity } from 'react-native'
 
-import styles, { iconStyles, secondaryColor } from '../../styles'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { createIconSetFromIcoMoon } from 'react-native-vector-icons'
+import iconConfig from '../../selection.json'
 
-import { menuTitles } from '../../i18n/en/labels'
+const Icon = createIconSetFromIcoMoon(iconConfig, '', 'Menu')
 
-const menuTitlesLowerCase = Object.keys(menuTitles).reduce((acc, curr) => {
-  acc[curr] = menuTitles[curr].toLowerCase()
-  return acc
-}, {})
+import { default as local } from './styles'
 
 export default function MenuItem({ active, icon, label, onPress }) {
-  const styleActive = active ? { color: secondaryColor } : null
+  const textColor = active ? local.menuTextActive : local.menuTextInactive
+  const iconColor = active ? local.menuIconActive : local.menuIconInactive
 
   return (
-    <TouchableOpacity style={styles.menuItem} onPress={onPress} >
-      <Icon name={icon} {...iconStyles.menuIcon} {...styleActive} />
+    <TouchableOpacity style={local.menuItem} onPress={onPress} >
+      <Icon name={icon} size={40} {...iconColor} />
       <Text
         testID={active ? 'activeMenuItem' : `menuItem${label}`}
-        style={[styles.menuText, styleActive]}
+        style={[local.menuText, textColor]}
       >
-        {menuTitlesLowerCase[label]}
+        {label}
       </Text>
     </TouchableOpacity>
   )
