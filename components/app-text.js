@@ -24,3 +24,21 @@ AppText.propTypes = {
   numberOfLines: PropTypes.number,
   style: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 }
+
+export const OrangeText = ({ children, ...props }) => {
+  return(<AppText style={styles.orangeText} {...props} >{children}</AppText>)
+}
+
+OrangeText.propTypes = { children: PropTypes.node }
+
+export const PurpleText = ({ children, ...props }) => {
+  return(<AppText style={styles.purpleText} {...props} >{children}</AppText>)
+}
+
+PurpleText.propTypes = { children: PropTypes.node }
+
+export const WhiteText = ({children}) => {
+  return(<AppText style={styles.whiteText}>{children}</AppText>)
+}
+
+WhiteText.propTypes = { children: PropTypes.node }

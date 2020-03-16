@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { ScrollView, View } from 'react-native'
 
 import { LocalDate } from 'js-joda'
-import AppText from './app-text'
+import AppText, { OrangeText, WhiteText } from './app-text'
 import Button from './button'
 
 import { connect } from 'react-redux'
@@ -106,41 +106,19 @@ class Home extends Component {
   }
 }
 
-const WhiteText = ({children}) => {
-  return(
-    <AppText style={styles.whiteText}>{children}</AppText>
-  )
-}
-
-WhiteText.propTypes = {
-  children: PropTypes.node
-}
-
 const Hint = ({children}) => {
-  return(
-    <AppText style={styles.hintText}>{children}</AppText>
-  )
+  return(<AppText style={styles.hintText}>{children}</AppText>)
 }
 
-Hint.propTypes = {
-  children: PropTypes.node
-}
+Hint.propTypes = {children: PropTypes.node}
 
-const Asterisk = () => {
-  return(
-    <AppText style={styles.orangeText}>*</AppText>
-  )
-}
+const Asterisk = () => { return(<OrangeText>*</OrangeText>)}
 
 const TextLine = ({children}) => {
-  return(
-    <View style={styles.lineContainer}>{children}</View>
-  )
+  return(<View style={styles.lineContainer}>{children}</View>)
 }
 
-TextLine.propTypes = {
-  children: PropTypes.node
-}
+TextLine.propTypes = { children: PropTypes.node}
 
 const mapStateToProps = (state) => {
   return({
