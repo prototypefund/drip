@@ -74,12 +74,12 @@ export const pages = [
   {
     component: 'About',
     label: labels.about,
-    parent: 'SettingsMenu',
+    parent: 'Home',
   },
   {
     component: 'License',
     label: labels.license,
-    parent: 'SettingsMenu',
+    parent: 'Home',
   },
   {
     component: 'CycleDay',
