@@ -1,36 +1,63 @@
-import React from 'react'
-import { View } from 'react-native'
+import React, { Component } from 'react'
+import { TouchableOpacity, View } from 'react-native'
 import PropTypes from 'prop-types'
 
-import Title from './title'
-import NavigationArrow from './navigation-arrow'
-import DeleteIcon from './delete-icon'
+import AppText from '../app-text'
+import SideMenu from './side-menu'
 
-import styles from '../../styles'
+import { connect } from 'react-redux'
+import { navigate } from '../../slices/navigation'
 
-export default function Header({
-  handleBack,
-  handleNext,
-  handleDelete,
-  title,
-  subtitle,
-}) {
+import { default as local } from './styles'
 
-  return (
-    <View style={styles.header}>
-      <View style={styles.accentCircle} />
-      { handleBack && <NavigationArrow handleBack={handleBack} /> }
-      <Title title={title} subtitle={subtitle} />
-      { handleNext && <NavigationArrow handleNext={handleNext} /> }
-      { handleDelete && <DeleteIcon handleDelete={handleDelete} /> }
-    </View >
+class Header extends Component {
+
+  static propTypes = { navigate: PropTypes.func.isRequired }
+  state = { showMenu: false }
+
+  constructor(props) {
+    super(props)
+
+    this.changeMenuState = this.changeMenuState.bind(this)
+  }
+
+  changeMenuState() {
+    this.setState({ showMenu: !this.state.showMenu})
+  }
+
+  componentWillUnmount() {
+    this.setState({ showMenu: false})
+  }
+
+  render() {
+    const { showMenu } = this.state
+
+    return (
+      <View style={local.header}>
+        <DripIcon navigate={this.props.navigate}/>
+        <SideMenu showMenu={showMenu} onPress={this.changeMenuState}/>
+      </View >
+    )
+  }
+}
+
+const DripIcon = ({ navigate }) => {
+  return(
+    <TouchableOpacity onPress={() => navigate('Home')}>
+      <AppText style={local.headerText}>drip.</AppText>
+    </TouchableOpacity>
   )
 }
 
-Header.propTypes = {
-  handleBack: PropTypes.func,
-  handleDelete: PropTypes.func,
-  handleNext: PropTypes.func,
-  subtitle: PropTypes.string,
-  title: PropTypes.string.isRequired
+DripIcon.propTypes = { navigate: PropTypes.func }
+
+const mapDispatchToProps = (dispatch) => {
+  return({
+    navigate: (page) => dispatch(navigate(page)),
+  })
 }
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Header)
