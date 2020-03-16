@@ -1,18 +1,19 @@
 import { StyleSheet } from 'react-native'
 
-const purple = '#3A2671'
-const purpleLight = '#5D4F8A'
-const tourquise = '#69CBC1'
-const tourquiseLight = '#CFECEA'
-const orange = '#F38337'
-const grey = '#A5A5A5'
+export const purple = '#3A2671'
+export const purpleLight = '#5D4F8A'
+export const tourquise = '#69CBC1'
+export const tourquiseLight = '#CFECEA'
+export const orange = '#F38337'
+export const grey = '#A5A5A5'
 
-const textFont = 'Jost-400-Book'
-const textFontBold = 'Jost-700-Bold'
+export const textFont = 'Jost-400-Book'
+export const textFontBold = 'Jost-700-Bold'
 
-const mainTextSize = 20
-const hintTextSize = 16
-const titleTextSize = 44
+export const mainTextSize = 20
+export const hintTextSize = 16
+export const titleTextSize = 44
+export const headerTextSize = 28
 
 export default StyleSheet.create({
   mainText: {
@@ -24,8 +25,9 @@ export default StyleSheet.create({
     fontSize: hintTextSize,
     marginLeft: hintTextSize
   },
-  whiteText: { color: 'white' },
   orangeText: { color: orange },
+  purpleText: { color: purple },
+  whiteText: { color: 'white' },
   titleText: {
     color: purpleLight,
     fontFamily: textFontBold,
@@ -63,6 +65,6 @@ export default StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: (mainTextSize * 0.4)
-  }
+  },
 })
 
