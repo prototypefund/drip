@@ -12,14 +12,12 @@ import { default as local } from './styles'
 export default function MenuItem({ active, icon, label, onPress }) {
   const textColor = active ? local.menuTextActive : local.menuTextInactive
   const iconColor = active ? local.menuIconActive : local.menuIconInactive
+  const testID = active ? 'activeMenuItem' : `menuItem${label}`
 
   return (
     <TouchableOpacity style={local.menuItem} onPress={onPress} >
       <Icon name={icon} size={40} {...iconColor} />
-      <Text
-        testID={active ? 'activeMenuItem' : `menuItem${label}`}
-        style={[local.menuText, textColor]}
-      >
+      <Text testID={testID} style={[local.menuText, textColor]} >
         {label}
       </Text>
     </TouchableOpacity>
