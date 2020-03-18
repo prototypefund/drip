@@ -5,7 +5,6 @@ export default StyleSheet.create({
   menu: {
     alignItems: 'center',
     backgroundColor: 'white',
-    flex: 0.23,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
