@@ -45,8 +45,18 @@ class App extends Component {
     const screenHeight = Math.round(Dimensions.get('window').height)
     const screenWidth = Math.round(Dimensions.get('window').width)
     const isPortrait = screenWidth < screenHeight
-    console.log('// i am in onLayout screenHeight, isPortrait ', screenHeight, isPortrait)
-    this.props.setDimensions({ screenHeight, screenWidth, isPortrait })
+    const headerHeight = isPortrait ? screenHeight * 0.12 : screenHeight * 0.11
+    const menuHeight = isPortrait ? screenHeight * 0.16 : screenHeight * 0.14
+    const pageHeight = isPortrait ? screenHeight * 0.72 : screenHeight * 0.75
+
+    this.props.setDimensions({
+      headerHeight,
+      isPortrait,
+      menuHeight,
+      pageHeight,
+      screenHeight,
+      screenWidth
+    })
   }
 
   render() {

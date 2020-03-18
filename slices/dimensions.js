@@ -2,7 +2,14 @@ import { createSlice } from 'redux-starter-kit'
 
 const dimensionsSlice = createSlice({
   slice: 'dimensions',
-  initialState: {},
+  initialState: {
+    headerHeight: 0,
+    isPortrait: null,
+    menuHeight: 0,
+    pageHeight: 0,
+    screenHeight: 0,
+    screenWidth: 0
+  },
   reducers: {
     setDimensions: (state, action) => action.payload
   }
