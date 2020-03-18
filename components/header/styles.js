@@ -13,7 +13,6 @@ export default StyleSheet.create({
   header: {
     alignItems: 'center',
     backgroundColor: purple,
-    flex: 0.18,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: mainTextSize

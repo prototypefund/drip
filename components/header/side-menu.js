@@ -20,9 +20,9 @@ const settingsMenuItems = [
 
 class SideMenu extends Component {
   static propTypes = {
+    dimensions: PropTypes.object.isRequired,
     navigate: PropTypes.func.isRequired,
     onPress: PropTypes.func.isRequired,
-    dimensions: PropTypes.object.isRequired,
     showMenu: PropTypes.bool.isRequired
   }
 
@@ -94,7 +94,6 @@ const MenuItem = ({ item, navigate }) => {
 MenuItem.propTypes = {
   item: PropTypes.object.isRequired,
   navigate: PropTypes.func.isRequired,
-  dimensions: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => {

@@ -7,12 +7,16 @@ import SideMenu from './side-menu'
 
 import { connect } from 'react-redux'
 import { navigate } from '../../slices/navigation'
+import { getDimensions } from '../../slices/dimensions'
 
 import { default as local } from './styles'
 
 class Header extends Component {
 
-  static propTypes = { navigate: PropTypes.func.isRequired }
+  static propTypes = {
+    dimensions: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired
+  }
   state = { showMenu: false }
 
   constructor(props) {
@@ -31,9 +35,10 @@ class Header extends Component {
 
   render() {
     const { showMenu } = this.state
+    const { headerHeight } = this.props.dimensions
 
     return (
-      <View style={local.header}>
+      <View style={[local.header, {height: headerHeight}]}>
         <DripIcon navigate={this.props.navigate}/>
         <SideMenu showMenu={showMenu} onPress={this.changeMenuState}/>
       </View >
@@ -51,6 +56,12 @@ const DripIcon = ({ navigate }) => {
 
 DripIcon.propTypes = { navigate: PropTypes.func }
 
+const mapStateToProps = (state) => {
+  return({
+    dimensions: getDimensions(state),
+  })
+}
+
 const mapDispatchToProps = (dispatch) => {
   return({
     navigate: (page) => dispatch(navigate(page)),
@@ -58,6 +69,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(Header)
