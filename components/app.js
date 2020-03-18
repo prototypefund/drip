@@ -45,7 +45,7 @@ class App extends Component {
     const screenHeight = Math.round(Dimensions.get('window').height)
     const screenWidth = Math.round(Dimensions.get('window').width)
     const isPortrait = screenWidth < screenHeight
-    console.log('// i am in onLayout screenHeight, isPortrait ', screenHeight, isPortrait)
+
     this.props.setDimensions({ screenHeight, screenWidth, isPortrait })
   }
 
