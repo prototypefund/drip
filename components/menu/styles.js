@@ -9,14 +9,26 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  menuItem: {
+  menuItemPortrait: {
     alignItems: 'center',
     flex: 1,
+    flexDirection: 'column',
     paddingVertical: 15
   },
-  menuText: {
+  menuItemLandscape: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    flexDirection: 'row',
+  },
+  menuTextPortrait: {
     fontFamily: textFontBold,
     marginTop: (mainTextSize * 0.3),
+    textTransform: 'uppercase'
+  },
+  menuTextLandscape: {
+    fontFamily: textFontBold,
+    marginLeft: (mainTextSize * 0.3),
     textTransform: 'uppercase'
   },
   menuTextInactive: { color: greyLight },
