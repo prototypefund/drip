@@ -101,6 +101,12 @@ export default StyleSheet.create({
   pageContainer: {
     backgroundColor: greenLight,
     flex: 1,
-  }
+  },
+  flexColumn: {flexDirection: 'column'},
+  flexRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  marginRight: {marginRight: pageTitleSize}
 })
 
