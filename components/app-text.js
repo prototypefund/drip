@@ -25,6 +25,12 @@ AppText.propTypes = {
   style: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 }
 
+export const GreyText = ({ children, ...props }) => {
+  return(<AppText style={styles.greyText} {...props} >{children}</AppText>)
+}
+
+GreyText.propTypes = { children: PropTypes.node }
+
 export const OrangeText = ({ children, ...props }) => {
   return(<AppText style={styles.orangeText} {...props} >{children}</AppText>)
 }
@@ -42,3 +48,9 @@ export const WhiteText = ({children}) => {
 }
 
 WhiteText.propTypes = { children: PropTypes.node }
+
+export const Title = ({children}) => {
+  return(<AppText style={styles.title}>{children}</AppText>)
+}
+
+Title.propTypes = { children: PropTypes.node }
