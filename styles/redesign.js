@@ -7,6 +7,7 @@ export const tourquiseLight = '#CFECEA'
 export const orange = '#F38337'
 export const grey = '#666666'
 export const greyLight = '#A5A5A5'
+const greenLight = '#e9f2ed'
 
 export const textFont = 'Jost-400-Book'
 export const textFontBold = 'Jost-700-Bold'
@@ -15,6 +16,8 @@ export const mainTextSize = 20
 export const hintTextSize = 16
 export const titleTextSize = 44
 export const headerTextSize = 28
+const fragmentTitleSize = 22
+const pageTitleSize = 24
 
 export default StyleSheet.create({
   mainText: {
@@ -25,6 +28,10 @@ export default StyleSheet.create({
   hintText: {
     fontSize: hintTextSize,
     marginLeft: hintTextSize
+  },
+  greyText: {
+    color: grey,
+    fontSize: hintTextSize,
   },
   orangeText: { color: orange },
   purpleText: { color: purple },
@@ -67,5 +74,33 @@ export default StyleSheet.create({
     flexWrap: 'wrap',
     marginTop: (mainTextSize * 0.4)
   },
+  // FramedSegment
+  framedSegment: {
+    paddingHorizontal: fragmentTitleSize,
+  },
+  line: {
+    borderBottomColor: greyLight,
+    borderStyle: 'solid',
+    borderBottomWidth: 1,
+    marginTop: fragmentTitleSize
+  },
+  framedSegmentTitle: {
+    color: purple,
+    fontSize: fragmentTitleSize,
+    marginBottom: fragmentTitleSize
+  },
+  framedSegmentLast: { paddingBottom: fragmentTitleSize * 2 },
+  title: {
+    alignSelf: 'center',
+    color: purple,
+    fontSize: pageTitleSize,
+    fontFamily: textFontBold,
+    marginTop: pageTitleSize,
+    marginBottom: pageTitleSize / 2
+  },
+  pageContainer: {
+    backgroundColor: greenLight,
+    flex: 1,
+  }
 })
 
