@@ -1,7 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 
-import AppText from '../app-text'
+import AppText from '../common/app-text'
 import DripHomeIcon from '../../assets/drip-home-icons'
 
 import styles from './styles'
