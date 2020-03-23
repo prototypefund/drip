@@ -18,7 +18,10 @@ export default {
     password: {
       name:'Password',
       text: ''
-    }
+    },
+    about: 'About',
+    license: 'License',
+    settings: 'Settings'
   },
   export: {
     errors: {
