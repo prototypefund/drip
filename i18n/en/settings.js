@@ -1,13 +1,24 @@
 import links from './links'
 
 export default {
-  menuTitles: {
-    reminders: 'Reminders',
-    dataManagement: 'Manage your data',
-    nfpSettings: 'NFP settings',
-    password: 'Password',
-    about: 'About',
-    license: 'License'
+  title: 'Settings',
+  menuItems: {
+    reminders: {
+      name: 'Reminders',
+      text: 'turn on/off reminders'
+    },
+    nfpSettings: {
+      name:'NFP settings',
+      text: 'define how you want to use NFP',
+    },
+    dataManagement: {
+      name: 'Data',
+      text: 'import, export or delete your data'
+    },
+    password: {
+      name:'Password',
+      text: ''
+    }
   },
   export: {
     errors: {
