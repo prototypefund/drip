@@ -1,36 +1,38 @@
-import React from 'react'
-import { View } from 'react-native'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import { StyleSheet, View } from 'react-native'
 
-import Title from './title'
-import NavigationArrow from './navigation-arrow'
-import DeleteIcon from './delete-icon'
+import Logo from './logo'
+import SideMenu from './side-menu'
 
-import styles from '../../styles'
+import { Colors, Containers, Sizes } from '../../styles/redesign'
 
-export default function Header({
-  handleBack,
-  handleNext,
-  handleDelete,
-  title,
-  subtitle,
-}) {
+export default class Header extends Component {
+  constructor(props) {
+    super(props)
 
-  return (
-    <View style={styles.header}>
-      <View style={styles.accentCircle} />
-      { handleBack && <NavigationArrow handleBack={handleBack} /> }
-      <Title title={title} subtitle={subtitle} />
-      { handleNext && <NavigationArrow handleNext={handleNext} /> }
-      { handleDelete && <DeleteIcon handleDelete={handleDelete} /> }
-    </View >
-  )
+    this.state = { shouldShowMenu: false }
+  }
+
+  toggleMenu = () => {
+    this.setState({ shouldShowMenu: !this.state.shouldShowMenu})
+  }
+
+  render() {
+    const { shouldShowMenu } = this.state
+
+    return (
+      <View style={styles.header}>
+        <Logo />
+        <SideMenu shouldShowMenu={shouldShowMenu} toggleMenu={this.toggleMenu}/>
+      </View >
+    )
+  }
 }
 
-Header.propTypes = {
-  handleBack: PropTypes.func,
-  handleDelete: PropTypes.func,
-  handleNext: PropTypes.func,
-  subtitle: PropTypes.string,
-  title: PropTypes.string.isRequired
-}
+const styles = StyleSheet.create({
+  header: {
+    backgroundColor: Colors.purple,
+    padding: Sizes.base,
+    ...Containers.rowContainer
+  }
+})

@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native'
 
 import AppText from './app-text'
 
-import { Colors, Spacing, Sizes, Typography } from '../../styles/redesign'
+import { Colors, Spacing, Typography } from '../../styles/redesign'
 
 const Segment = ({ children, last, title }) => {
   const containerStyle = last ? styles.containerLast : styles.container
@@ -23,13 +23,6 @@ Segment.propTypes = {
   title: PropTypes.string
 }
 
-const bottomBorder = {
-  borderStyle: 'solid',
-  borderBottomWidth: 2,
-  borderBottomColor: Colors.grey,
-  paddingBottom: Spacing.base
-}
-
 const segmentContainer = {
   marginHorizontal: Spacing.base,
   marginBottom: Spacing.base,
@@ -37,15 +30,17 @@ const segmentContainer = {
 
 const styles = StyleSheet.create({
   container: {
-    ...segmentContainer,
-    ...bottomBorder
+    borderStyle: 'solid',
+    borderBottomWidth: 2,
+    borderBottomColor: Colors.grey,
+    paddingBottom: Spacing.base,
+    ...segmentContainer
   },
   containerLast: {
     ...segmentContainer
   },
   title: {
-    fontSize: Sizes.subtitle,
-    ...Typography.title
+    ...Typography.subtitle
   }
 })
 
