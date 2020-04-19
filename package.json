@@ -4,7 +4,9 @@
   "contributors": [
     "Julia Friesel <julia.friesel@gmail.com>",
     "Marie Kochsiek",
-    "Tina Baumann"
+    "Tina Baumann",
+    "Mariya Zadnepryanets",
+    "Sofiya Tepikin"
   ],
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
